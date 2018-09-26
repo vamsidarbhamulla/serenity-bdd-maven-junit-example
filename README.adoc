@@ -1,0 +1,293 @@
+# serenity-bdd-maven-junit-guide
+= Getting Started guide to run serenity bdd project with maven and junit
+:Author:    Author Vamsi
+:Email:     <vamsi.krishna0207@gmail.com>
+:Date:      25-09-2018 date
+:Revision:  1.0
+
+This guide walks you through to set up gecko driver
+
+== Getting Started
+To run serenity bdd sample project with maven and junit
+
+=== What you’ll build
+To run serenity bdd sample project with maven and junit against an application under test http://serenitybddpractice.com
+
+=== What you'll need
+. About 15 minutes
+. Java IDE like
+.. Intellij or
+.. Eclipse
+. Maven build tool
+. JDk 8 or higher
+. Git (optional)
+
+
+=== How to complete this guide
+The information provided here is in detail step by step procedure like any other serenity bdd guides. +
+If you are already aware of any of these steps feel free to skip them.
+
+==== To Start from beginning move on to Build with Maven.
+
+==== To skip the basics, do the following :
+. Download and unzip the source repository for this guide, or clone it using git:
+
+
+==== Build with Maven
+
+.Step 1:
+Open your favourite IDE like Intellij
+
+.Step 2:
+.. Start creating a basic maven project
+.. Create a file named pom.xml and create the following tags
+.. Provide Group Id
+.. Provide Artifact id
+.. Provide project name
+.. Provide properties
+
+[source, xml]
+--------------------------------
+       <modelVersion>4.0.0</modelVersion>
+2.a.   <groupId>serenity-bdd-guides</groupId>
+2.b.   <artifactId>serenity-bdd-maven-junit-test-example</artifactId>
+       <version>1.0.0-SNAPSHOT</version>
+       <packaging>jar</packaging>
+
+2.c.   <name>Sample Serenity BDD project using maven and junit</name>
+
+2.d.   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <serenity.version>1.9.45</serenity.version>
+        <serenity.maven.version>1.9.43</serenity.maven.version>
+        <encoding>UTF-8</encoding>
+       </properties>
+--------------------------------
+
+.Step 3:
+.. Add the below dependencies
+... serenity-core
+... serenity-junit
+... junit
+.. Add the below plugins
+... maven-failsafe-plugin
+... serenity-maven-plugin
+
+[source, xml]
+--------------------------------
+3.a <dependencies>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+3.a.1         <artifactId>serenity-core</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+3.a.2         <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+3.a.3         <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+   </dependencies>
+
+ <build>
+3.b      <plugins>
+            <plugin>
+3.b.1             <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+3.b.2             <artifactId>serenity-maven-plugin</artifactId>
+                <version>${serenity.maven.version}</version>
+                <executions>
+                    <execution>
+                        <id>serenity-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+   </build>
+
+--------------------------------
+
+.Step 4:
+.. Add Page Objects
+... Create ApplicationHomePage Class
+... Create LoginScreen Class
+... Create UserAccountPage Class
+
+[source, java]
+----------------------------------
+4.a public class ApplicationHomePage extends PageObject {
+
+    @FindBy(css="#_desktop_user_info > div > a")
+    private static WebElementFacade GET_LOGIN_SCREEN;
+
+    @FindBy(css="#_mobile_user_info > div > a")
+    private static WebElementFacade GET_MOBILE_LOGIN_SCREEN;
+
+    public void openAt(){
+        this.openAt("http://www.serenitybddpractice.com");
+    }
+
+    public void goToLoginScreen(){
+        if(CurrentOS.getType() == CurrentOS.OSType.other)
+            GET_MOBILE_LOGIN_SCREEN.click();
+        else GET_LOGIN_SCREEN.click();
+    }
+
+4.b public class LoginScreen extends PageObject {
+
+        @FindBy(css="#login-form > section > div:nth-child(2) > div.col-md-6 > input")
+        private static WebElementFacade FILL_USERNAME;
+
+        @FindBy(css="#login-form > section > div:nth-child(3) > div.col-md-6 > div > input")
+        private static WebElementFacade FILL_PASSWORD;
+
+        @FindBy(css="#submit-login")
+        private static WebElementFacade SIGN_IN;
+
+        public LoginScreen(WebDriver driver) {
+            super(driver);
+        }
+
+        private void fillUserName(String userName){
+            FILL_USERNAME.clear();
+            FILL_USERNAME.sendKeys(userName);
+        }
+
+        private void fillPassword(String password){
+            FILL_PASSWORD.clear();
+            FILL_PASSWORD.sendKeys(password);
+        }
+
+
+        private void clickSignIn() {
+            SIGN_IN.click();
+        }
+
+        public void login(String userName, String password){
+            fillUserName(userName);
+            fillPassword(password);
+            clickSignIn();
+        }
+    }
+
+4.c public class UserAccountPage extends PageObject {
+
+        public void checkTitle(){
+            Assert.assertEquals( getTitle(),"My account");
+        }
+    }
+----------------------------------
+
+.Step 5:
+.. Add Step Objects
+... Create LoginSteps class
+
+[source, java]
+----------------------------------
+5.a public class LoginSteps {
+
+        private String actor;
+
+        private ApplicationHomePage applicationHomePage;
+
+        private LoginScreen loginScreen;
+
+        private UserAccountPage userAccountPage;
+
+
+        @Step("#actor is a registered member")
+        public void IsARegisteredMember(){
+            applicationHomePage.openAt();
+            // we can check credentials using api or db
+        }
+
+        @Step("#actor should be able to sign in with their account")
+        public void signInWithTheirAccount(String userName, String password){
+            applicationHomePage.goToLoginScreen();
+            loginScreen.login(userName, password);
+        }
+
+        @Step("#actor should be able to view their profile")
+        public void checkProfile(){
+            userAccountPage.checkTitle();
+        }
+    }
+----------------------------------
+
+.Step 6:
+.. Add Test
+... Create Login Test class
+
+[source, java]
+----------------------------------
+6.a @RunWith(SerenityRunner.class)
+    public class LoginIT {
+
+        @Managed
+        WebDriverFacade driver; // defaults to firefox geckodriver
+
+        @Steps
+        LoginSteps carla;
+
+        @Test
+        public void checkUserSuccessfullyLogin(){
+            // Given
+            carla.IsARegisteredMember();
+
+            // When
+            carla.signInWithTheirAccount("carla_the_online_customer@getnada.com","password");
+
+            // Then
+            carla.checkProfile();
+        }
+    }
+----------------------------------
+
+.Step 7:
+.. Open a command line and run
+.. mvn verify
+.. mvn verify -Dwebdriver.driver=driverName
+
+TIP: Possible driver values +
+a. chrome +
+b. firefox +
+c. iexplorer +
+d. edge +
+e. safari +
+f. appium +
+g. android +
+h. ios +
+i. provided driver +
+
+[source, bash]
+--------------------------------
+7.b mvn verify
+7.c mvn verify -Dwebdriver.driver=chrome //for chromedriver
+--------------------------------
+
+CAUTION: Make sure the required driver setup is done and it's accessible using path variable
+
+TIP: You can also provide the driver path by providing the following parameter in command line webdriver.${driverName}.driver. +
+For chrome driver path parameter name is webdriver.chrome.driver
+
+== Summary
+Congratulations! You’ve successfully built a basic serenity bdd project using junit and maven.
