@@ -1,4 +1,3 @@
-# serenity-bdd-maven-junit-guide
 = Getting Started guide to run serenity bdd project with maven and junit
 :Author:    Author Vamsi
 :Email:     <vamsi.krishna0207@gmail.com>
@@ -31,7 +30,8 @@ If you are already aware of any of these steps feel free to skip them.
 
 ==== To skip the basics, do the following :
 . Download and unzip the source repository for this guide, or clone it using git:
-
+.. https://github.com/vamsidarbhamulla/serenity-bdd-maven-junit-example.git
+.. move to Run tests
 
 ==== Build with Maven
 
@@ -262,7 +262,8 @@ Open your favourite IDE like Intellij
     }
 ----------------------------------
 
-.Step 7:
+== Run tests
+.Step 1:
 .. Open a command line and run
 .. mvn verify
 .. mvn verify -Dwebdriver.driver=driverName
@@ -280,8 +281,8 @@ i. provided driver +
 
 [source, bash]
 --------------------------------
-7.b mvn verify
-7.c mvn verify -Dwebdriver.driver=chrome //for chromedriver
+1.b mvn verify
+1.c mvn verify -Dwebdriver.driver=chrome //for chromedriver
 --------------------------------
 
 CAUTION: Make sure the required driver setup is done and it's accessible using path variable
