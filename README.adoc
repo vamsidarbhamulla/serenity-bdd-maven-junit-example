@@ -4,7 +4,7 @@
 :Date:      25-09-2018 date
 :Revision:  1.0
 
-This guide walks you through to set up gecko driver
+This guide walks you through to run a simple serenity bdd test project using maven and junit
 
 == Getting Started
 To run serenity bdd sample project with maven and junit
@@ -128,9 +128,9 @@ Open your favourite IDE like Intellij
 
 .Step 4:
 .. Add Page Objects
-... Create ApplicationHomePage Class
-... Create LoginScreen Class
-... Create UserAccountPage Class
+.... Create ApplicationHomePage Class
+.... Create LoginScreen Class
+.... Create UserAccountPage Class
 
 [source, java]
 ----------------------------------
@@ -151,6 +151,10 @@ Open your favourite IDE like Intellij
             GET_MOBILE_LOGIN_SCREEN.click();
         else GET_LOGIN_SCREEN.click();
     }
+----------------------------------
+
+[source, java]
+----------------------------------
 
 4.b public class LoginScreen extends PageObject {
 
@@ -188,7 +192,10 @@ Open your favourite IDE like Intellij
             clickSignIn();
         }
     }
+----------------------------------
 
+[source, java]
+----------------------------------
 4.c public class UserAccountPage extends PageObject {
 
         public void checkTitle(){
