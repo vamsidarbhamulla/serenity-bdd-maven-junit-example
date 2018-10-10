@@ -17,7 +17,6 @@ To run serenity bdd sample project with maven and junit against an application u
 . Java IDE like
 .. Intellij or
 .. Eclipse
-. Maven build tool
 . JDk 8 or higher
 . Git (optional)
 
@@ -288,8 +287,8 @@ i. provided driver +
 
 [source, bash]
 --------------------------------
-1.b mvn verify
-1.c mvn verify -Dwebdriver.driver=chrome //for chromedriver
+1.b ./mvnw verify // Linux & Mac machines
+1.c mvnw.cmd verify -Dwebdriver.driver=chrome // Windows machines and for chromedriver
 --------------------------------
 
 CAUTION: Make sure the required driver setup is done and it's accessible using path variable
