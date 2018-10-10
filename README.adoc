@@ -143,7 +143,7 @@ NOTE: A new basic maven project created with a folder name serenity-bdd-maven-ju
 
 .Step 3 Explanation:
 .. Dependencies will get the required jar files for the project to run successfully
-.. Plugins will get the required
+.. Plugins will be used as a tool to execute a specific action defined by maven
 
 .Step 4:
 .. Add Page Objects
