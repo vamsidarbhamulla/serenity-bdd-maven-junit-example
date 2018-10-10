@@ -292,8 +292,7 @@ NOTE: A new basic maven project created with a folder name serenity-bdd-maven-ju
 .Step 1:
 .. Open a command line and run
 .. mvn verify
-
-... mvn verify -Dwebdriver.driver=driverName
+.. mvn verify -Dwebdriver.driver=driverName
 
 TIP: Possible driver values +
 a. chrome +
