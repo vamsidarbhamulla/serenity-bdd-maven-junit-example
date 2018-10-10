@@ -35,33 +35,49 @@ If you are already aware of any of these steps feel free to skip them.
 ==== Build with Maven
 
 .Step 1:
-Open your favourite IDE like Intellij
+Creating a project from basic maven archetype +
+Open commandline and run
+
+    mvn archetype:generate -DgroupId=serenity-bdd-guides -DartifactId=serenity-bdd-maven-junit-example -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false -Dpackage=net.serenitybdd.examples // Linux & Mac machines
+
+.Step 1 Explanation:
+.. A basic maven project requires a group id & artifact id  ( generally a project name).
+.. An archetypeArtifactId defines the type of maven project that we would like to create
+... We are choosing a quickstart  archetype
+.. We are providing a package name under which the classes will be created.
+
+NOTE: A new basic maven project created with a folder name serenity-bdd-maven-junit-example by end of this step.
 
 .Step 2:
-.. Start creating a basic maven project
-.. Create a file named pom.xml and create the following tags
-.. Provide Group Id
-.. Provide Artifact id
-.. Provide project name
-.. Provide properties
+.. Open the new maven project using an IDE like Intellij or Eclipse
+.. Open the file named pom.xml and make sure the following tags are available.
+... Provide Group Id (Should be there)
+... Provide Artifact id (Should be there)
+... Provide project name (Add the project name)
+... Provide properties (Add these property values)
 
 [source, xml]
 --------------------------------
-       <modelVersion>4.0.0</modelVersion>
-2.a.   <groupId>serenity-bdd-guides</groupId>
-2.b.   <artifactId>serenity-bdd-maven-junit-test-example</artifactId>
-       <version>1.0.0-SNAPSHOT</version>
-       <packaging>jar</packaging>
+        <modelVersion>4.0.0</modelVersion>
+2.b.1   <groupId>serenity-bdd-guides</groupId>
+2.b.2   <artifactId>serenity-bdd-maven-junit-test-example</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <packaging>jar</packaging>
 
-2.c.   <name>Sample Serenity BDD project using maven and junit</name>
+2.b.3   <name>Sample Serenity BDD project using maven and junit</name>
 
-2.d.   <properties>
+2.b.4   <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <serenity.version>1.9.45</serenity.version>
         <serenity.maven.version>1.9.43</serenity.maven.version>
         <encoding>UTF-8</encoding>
        </properties>
 --------------------------------
+
+.Step 2 Explanation :
+.. Group Id and artifact Id should be available after step 1
+.. Add project name
+.. Add project properties include serenity version and serenity maven version.
 
 .Step 3:
 .. Add the below dependencies
@@ -124,6 +140,10 @@ Open your favourite IDE like Intellij
    </build>
 
 --------------------------------
+
+.Step 3 Explanation:
+.. Dependencies will get the required jar files for the project to run successfully
+.. Plugins will get the required
 
 .Step 4:
 .. Add Page Objects
@@ -272,7 +292,8 @@ Open your favourite IDE like Intellij
 .Step 1:
 .. Open a command line and run
 .. mvn verify
-.. mvn verify -Dwebdriver.driver=driverName
+
+... mvn verify -Dwebdriver.driver=driverName
 
 TIP: Possible driver values +
 a. chrome +
@@ -287,8 +308,10 @@ i. provided driver +
 
 [source, bash]
 --------------------------------
-1.b ./mvnw verify // Linux & Mac machines
-1.c mvnw.cmd verify -Dwebdriver.driver=chrome // Windows machines and for chromedriver
+1.b mvn verify
+1.b ./mvnw verify // Linux & Mac machines using maven wrapper
+1.b mvnw.cmd verify // Windows machines using maven wrapper
+1.c mvn verify -Dwebdriver.driver=chrome // for chromedriver
 --------------------------------
 
 CAUTION: Make sure the required driver setup is done and it's accessible using path variable
